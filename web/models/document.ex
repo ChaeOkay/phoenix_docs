@@ -4,6 +4,7 @@ defmodule Docs.Document do
   schema "documents" do
     field :body, :string
     field :title, :string
+    has_many :messages, Doc.Message
 
     timestamps
   end

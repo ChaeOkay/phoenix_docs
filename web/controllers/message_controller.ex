@@ -7,7 +7,8 @@ defmodule Docs.MessageController do
   plug :scrub_params, "message" when action in [:create, :update]
 
   def index(conn, _params) do
-    messages = Repo.all(Message)
+    doc = conn.assigns.doc
+    messages = Repo.all(from m in assoc(doc, :messages))
     render(conn, "index.html", messages: messages)
   end
 
@@ -18,7 +19,10 @@ defmodule Docs.MessageController do
 
   def create(conn, %{"message" => message_params}) do
     doc = conn.assigns.doc
-    changeset = Message.changeset(%Message{}, message_params)
+    changeset =
+      doc
+      |> Ecto.Model.build(:message) #return struct of association named message)
+      |> Message.changeset(message_params)
 
     case Repo.insert(changeset) do
       {:ok, _message} ->
@@ -30,8 +34,7 @@ defmodule Docs.MessageController do
     end
   end
 
-  defp find_document(conn, _) do
-    assign(conn, :doc,
+  defp find_document(conn, _) do assign(conn, :doc,
       Repo.get!(Docs.Document, conn.params["document_id"]))
   end
 end
