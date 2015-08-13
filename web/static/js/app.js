@@ -30,6 +30,12 @@ let App = {
     socket.connect() //idel connection - see web/channels/document_channel
 
     let docChan = socket.channel("documents:" + docID)
+
+    editor.on('text-change', (delta, source)) => {
+      if (course!== "user"){ return }
+      docChan.push("text_change", {delta: delta}
+    })
+
     docChan.join()
       .receive("ok", resp => console.log("Joined!", resp) )
       .receive("error", resp => console.log("Error!", resp) )
