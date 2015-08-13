@@ -3,6 +3,7 @@ defmodule Docs.MessageController do
 
   alias Docs.Message
 
+  plug :find_document
   plug :scrub_params, "message" when action in [:create, :update]
 
   def index(conn, _params) do
@@ -16,6 +17,7 @@ defmodule Docs.MessageController do
   end
 
   def create(conn, %{"message" => message_params}) do
+    doc = conn.assigns.doc
     changeset = Message.changeset(%Message{}, message_params)
 
     case Repo.insert(changeset) do
@@ -26,5 +28,10 @@ defmodule Docs.MessageController do
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
+  end
+
+  defp find_document(conn, _) do
+    assign(conn, :doc,
+      Repo.get!(Docs.Document, conn.params["document_id"]))
   end
 end
