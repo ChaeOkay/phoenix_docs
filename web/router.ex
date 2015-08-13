@@ -15,13 +15,6 @@ defmodule Docs.Router do
 
   scope "/", Docs do
     pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-    get "/documents/:id", DocumentController, :show
+    resources "/documents", DocumentController
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Docs do
-  #   pipe_through :api
-  # end
 end
