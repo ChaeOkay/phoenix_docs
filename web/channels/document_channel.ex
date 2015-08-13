@@ -20,9 +20,8 @@ defmodule Docs.DocumentChannel do
   def handle_in("new_msg", %{"body" => body} = params, socket) do
     doc = Repo.get!(Docs.Document, socket.assigns.doc_id)
     changeset =
-      doc
-      |> Ecto.Model.build(:messages) #return struct of association named message)
-      |> Docs.Message.changeset(params)
+      Docs.Message.changeset(%Docs.Message{}, params)
+      |> Ecto.Changeset.put_change(:document_id, doc.id)
 
     case Repo.insert(changeset) do
       {:ok, _message} ->
