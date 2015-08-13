@@ -19,3 +19,21 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import {Socket} from "deps/phoenix/web/static/js/phoenix"
+
+let App = {
+  init(){
+    let socket = new  Socket("/socket")
+    let editor = new Quill("#editor")
+    let docID = $("#editor").data("id")
+    socket.connect() //idel connection - see web/channels/document_channel
+
+    let docChan = socket.channel("documents:" + docID)
+    docChan.join()
+      .receive("ok", resp => console.log("Joined!", resp) )
+      .receive("error", resp => console.log("Error!", resp) )
+  }
+}
+
+App.init()

@@ -11,13 +11,15 @@
   <% end %>
 
   <div class="form-group">
-    <%= label f, :body, "Body", class: "control-label" %>
-    <%= textarea f, :body, class: "form-control" %>
+    <%= label f, :title, "Title", class: "control-label" %>
+    <%= text_input f, :title, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= label f, :title, "Title", class: "control-label" %>
-    <%= text_input f, :title, class: "form-control" %>
+    <div id="editor" class="form-control"
+      data-id="<%= @changeset.model.id %>">
+      <%= raw @changeset.model.body %>
+    </div>
   </div>
 
   <div class="form-group">
