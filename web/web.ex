@@ -28,8 +28,7 @@ defmodule Docs.Web do
 
       alias Docs.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 2]
-
+      import Ecto.Query
       import Docs.Router.Helpers
     end
   end
@@ -60,7 +59,7 @@ defmodule Docs.Web do
 
       alias Docs.Repo
       import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      import Ecto.Query
 
     end
   end
