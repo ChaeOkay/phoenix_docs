@@ -27,6 +27,9 @@ let App = {
     let socket = new  Socket("/socket")
     let editor = new Quill("#editor")
     let docID = $("#editor").data("id")
+
+    let msgContainer = $("messages")
+    let msgInput = $("#message-input")
     socket.connect() //idel connection - see web/channels/document_channel
 
     let docChan = socket.channel("documents:" + docID)
@@ -35,15 +38,31 @@ let App = {
       editor.updateContents(delta)
     })
 
+    docChan.on("new_msg", msg => {
+      this.appendMessage(msgContainer. msg)
+    })
+
+
     editor.on('text-change', (delta, source) => {
       if (source !== "user"){ return }
 
       docChan.push("text_change", {delta: delta})
     })
 
+    msgInput.on("keypress", e => {
+      if(e.which !== 13) { return }
+      docChan.push("new_msg", {body: msgInput.val()})
+      msgInput.val("")
+    })
+
     docChan.join()
       .receive("ok", resp => console.log("Joined!", resp) )
       .receive("error", resp => console.log("Error!", resp) )
+  },
+
+  appendMessage(msgContainer, msg){
+    msgContainer.append(`<br/>${msg.body}`)
+    msgContainer.scrollTop(msgContainer.props("scrollHeight"))
   }
 }
 
