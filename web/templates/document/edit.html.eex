@@ -1,6 +1,16 @@
 <h2>Edit document</h2>
-
-<%= render "form.html", changeset: @changeset,
-                        action: document_path(@conn, :update, @document) %>
+<div class="row">
+  <div class="col-sm-8">
+        <%= render "form.html", changeset: @changeset,
+                                    action: document_path(@conn, :update,
+                                    @document) %>
+                                      </div>
+                                        <div class="col-sm-4">
+                                              <div id="messages"></div>
+                                                  <input type="text"
+                                                  id="message-input"
+                                                  placeholder="Send..."/>
+                                                    </div>
+                                                  </div>
 
 <%= link "Back", to: document_path(@conn, :index) %>

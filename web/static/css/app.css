@@ -83,3 +83,9 @@ form.link, form.button {
   min-height: 20em;
 }
 
+#messages {
+  min-height: 400px;
+  max-height: 400px;
+  overflow: scroll;
+  border: 0.1em solid #dddddd;
+}
