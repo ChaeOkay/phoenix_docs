@@ -15,7 +15,9 @@ defmodule Docs.Router do
 
   scope "/", Docs do
     pipe_through :browser # Use the default browser stack
-    resources "/documents", DocumentController
-    resources "/messages", MessageController
+    resources "/documents", DocumentController do
+      resources "/messages", MessageController,
+        only: [:index, :new, :create]
+    end
   end
 end
