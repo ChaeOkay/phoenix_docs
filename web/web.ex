@@ -56,7 +56,8 @@ defmodule Docs.Web do
   def channel do
     quote do
       use Phoenix.Channel
-
+      alias Docs.Message
+      alias Docs.Document
       alias Docs.Repo
       import Ecto.Model
       import Ecto.Query

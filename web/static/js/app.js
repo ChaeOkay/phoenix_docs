@@ -24,7 +24,10 @@ import {Socket} from "deps/phoenix/web/static/js/phoenix"
 
 let App = {
   init(){
-    let socket = new  Socket("/socket")
+    let socket = new Socket("/socket",
+                             {logger: (kind, msg, data) => {
+                               console.log(`${kind}: ${msg}`, data)
+                              }})
     let editor = new Quill("#editor")
     let docID = $("#editor").data("id")
 
@@ -56,7 +59,9 @@ let App = {
     })
 
     docChan.join()
-      .receive("ok", resp => console.log("Joined!", resp) )
+      .receive("ok", ({messages}) => {
+        messages.forEach( msg => this.appendMessage(msgContainer, msg))
+      })
       .receive("error", resp => console.log("Error!", resp) )
   },
 
