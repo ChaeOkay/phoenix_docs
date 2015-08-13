@@ -28,7 +28,7 @@ let App = {
     let editor = new Quill("#editor")
     let docID = $("#editor").data("id")
 
-    let msgContainer = $("messages")
+    let msgContainer = $("#messages")
     let msgInput = $("#message-input")
     socket.connect() //idel connection - see web/channels/document_channel
 
@@ -39,7 +39,7 @@ let App = {
     })
 
     docChan.on("new_msg", msg => {
-      this.appendMessage(msgContainer. msg)
+      this.appendMessage(msgContainer, msg)
     })
 
 
@@ -62,7 +62,7 @@ let App = {
 
   appendMessage(msgContainer, msg){
     msgContainer.append(`<br/>${msg.body}`)
-    msgContainer.scrollTop(msgContainer.props("scrollHeight"))
+    msgContainer.scrollTop(msgContainer.prop("scrollHeight"))
   }
 }
 

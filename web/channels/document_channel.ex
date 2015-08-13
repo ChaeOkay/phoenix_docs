@@ -9,4 +9,9 @@ defmodule Docs.DocumentChannel do
     broadcast_from! socket, "text_change", %{delta: delta}
     {:reply, :ok, socket}
   end
+
+  def handle_in("new_msg", %{"body" => body}, socket) do
+    broadcast! socket, "new_msg", %{body: body}
+    {:reply, :ok, socket}
+  end
 end
