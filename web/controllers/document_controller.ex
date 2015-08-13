@@ -2,6 +2,6 @@ defmodule Docs.DocumentController do
   use Docs.Web, :controller
 
   def show(conn, %{"id" => name} = params ) do
-    text(conn, "Showing doc! #{name}")
+    render conn, "show.html", name: name
   end
 end
